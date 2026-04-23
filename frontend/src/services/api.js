@@ -1,50 +1,64 @@
 /**
- * API Service - Axios instance with retry logic, interceptors, error handling
+ * API Service - Production Ready
+ * Handles:
+ * - Dynamic base URL
+ * - Retry (Render cold start safe)
+ * - Timeout handling
+ * - Error normalization
  */
 
-import axios from 'axios'
+import axios from "axios"
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+// ── Base URL (ENV FIRST, fallback safe) ───────────────────────
+const BASE_URL =
+  import.meta.env.VITE_API_URL?.replace(/\/$/, "") ||
+  "https://agri-backend.onrender.com"
 
 // ── Axios Instance ────────────────────────────────────────────
 const api = axios.create({
   baseURL: BASE_URL,
-  timeout: 30000,
+  timeout: 60000, // increased for Render cold start
   headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
+    "Content-Type": "application/json",
+    Accept: "application/json",
   },
 })
 
-// ── Retry Logic ───────────────────────────────────────────────
+// ── Retry Logic (important for Render cold start) ─────────────
 const MAX_RETRIES = 3
-const RETRY_DELAY = 1000 // ms
+const RETRY_DELAY = 1500
 
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
 const retryRequest = async (error) => {
-  const config = error.config
+  const config = error.config || {}
+
   config._retryCount = config._retryCount || 0
 
+  // retry only on network / server errors
   if (
     config._retryCount >= MAX_RETRIES ||
-    !error.response ||
-    error.response.status < 500
+    (error.response && error.response.status < 500)
   ) {
     return Promise.reject(error)
   }
 
   config._retryCount += 1
-  const delay = RETRY_DELAY * Math.pow(2, config._retryCount - 1) // exponential back-off
+
+  const delay = RETRY_DELAY * Math.pow(2, config._retryCount - 1)
   await sleep(delay)
+
   return api(config)
 }
 
 // ── Request Interceptor ───────────────────────────────────────
 api.interceptors.request.use(
   (config) => {
-    // Add request timestamp for debugging
     config.metadata = { startTime: new Date() }
+
+    // optional: attach auth token later if needed
+    // config.headers.Authorization = `Bearer ${token}`
+
     return config
   },
   (error) => Promise.reject(error)
@@ -53,75 +67,69 @@ api.interceptors.request.use(
 // ── Response Interceptor ──────────────────────────────────────
 api.interceptors.response.use(
   (response) => {
-    // Log response time in dev
     if (import.meta.env.DEV) {
-      const duration = new Date() - response.config.metadata?.startTime
-      console.debug(`[API] ${response.config.method?.toUpperCase()} ${response.config.url} — ${duration}ms`)
+      const duration =
+        new Date() - response.config.metadata?.startTime
+      console.debug(
+        `[API] ${response.config.method?.toUpperCase()} ${
+          response.config.url
+        } — ${duration}ms`
+      )
     }
+
     return response
   },
   async (error) => {
-    // Retry on server errors
-    if (error.response?.status >= 500) {
+    // retry on server / network errors
+    if (!error.response || error.response.status >= 500) {
       return retryRequest(error)
     }
-    return Promise.reject(error)
+
+    // normalize error for UI
+    const message =
+      error.response?.data?.message ||
+      error.response?.data?.error ||
+      "Something went wrong"
+
+    return Promise.reject({
+      status: error.response?.status,
+      message,
+    })
   }
 )
 
-// ── API Methods ───────────────────────────────────────────────
+// ── API METHODS ───────────────────────────────────────────────
 
-/**
- * Run full agricultural analysis for a field
- * @param {Object} payload - { crop, area, unit, latitude, longitude }
- */
 export const analyzeField = async (payload) => {
-  const response = await api.post('/api/analyze', payload)
-  return response.data
+  const res = await api.post("/api/analyze", payload)
+  return res.data
 }
 
-/**
- * Fetch weather data for coordinates
- * @param {number} lat
- * @param {number} lon
- */
 export const getWeather = async (lat, lon) => {
-  const response = await api.get('/api/weather', { params: { lat, lon } })
-  return response.data
+  const res = await api.get("/api/weather", {
+    params: { lat, lon },
+  })
+  return res.data
 }
 
-/**
- * Get historical analyses with pagination
- * @param {Object} params - { page, limit, crop }
- */
 export const getHistory = async (params = {}) => {
-  const response = await api.get('/api/history', { params })
-  return response.data
+  const res = await api.get("/api/history", { params })
+  return res.data
 }
 
-/**
- * Get aggregated stats for analytics dashboard
- */
 export const getStats = async () => {
-  const response = await api.get('/api/history/stats')
-  return response.data
+  const res = await api.get("/api/history/stats")
+  return res.data
 }
 
-/**
- * Delete an analysis by ID
- * @param {string} id
- */
 export const deleteAnalysis = async (id) => {
-  const response = await api.delete(`/api/history/${id}`)
-  return response.data
+  const res = await api.delete(`/api/history/${id}`)
+  return res.data
 }
 
-/**
- * Health check
- */
 export const healthCheck = async () => {
-  const response = await api.get('/health')
-  return response.data
+  const res = await api.get("/health")
+  return res.data
 }
 
 export default api
