@@ -8,3 +8,6 @@ db = client["agri_ai"]
 
 def get_db():
     return db
+
+def get_collection(name):
+    return db[name]
