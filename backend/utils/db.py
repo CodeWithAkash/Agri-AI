@@ -1,10 +1,18 @@
 import os
 from pymongo import MongoClient
 
-MONGO_URI = os.getenv("MONGO_URI")
+client = None
+db = None
 
-client = MongoClient(MONGO_URI)
-db = client["agri_ai"]
+def init_db(app=None):
+    global client, db
+
+    mongo_uri = os.getenv("MONGO_URI")
+    if not mongo_uri:
+        raise RuntimeError("MONGO_URI is not set")
+
+    client = MongoClient(mongo_uri)
+    db = client["agri_ai"]
 
 def get_db():
     return db
