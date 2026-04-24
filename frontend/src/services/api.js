@@ -12,7 +12,7 @@ import axios from "axios"
 // ── Base URL (ENV FIRST, fallback safe) ───────────────────────
 const BASE_URL =
   import.meta.env.VITE_API_URL?.replace(/\/$/, "") ||
-  "https://agri-backend.onrender.com"
+  "https://agri-ai-l4y4.onrender.com"
 
 // ── Axios Instance ────────────────────────────────────────────
 const api = axios.create({
