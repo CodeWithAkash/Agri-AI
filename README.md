@@ -100,7 +100,7 @@ docker-compose up --build
 ```
 
 This starts **3 containers**:
-- `agri_frontend` → http://localhost:3000
+- `agri_frontend` → http://localhost:3000 , custom domain
 - `agri_backend`  → http://localhost:5000
 - `agri_mongodb`  → port 27017
 
