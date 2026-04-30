@@ -58,7 +58,6 @@ agri-ai/
 │           └── globals.css
 │
 └── backend/
-    ├── Dockerfile
     ├── requirements.txt
     ├── app.py
     ├── routes/
