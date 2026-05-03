@@ -1,6 +1,6 @@
 # 🌾 AgriAI — AI-Powered Agriculture Assistant
 
-A production-grade full-stack web platform that converts Android agriculture app logic into a modern web application. Built with React + Vite, Flask, MongoDB, and Docker.
+A production-grade full-stack web platform that converts Android agriculture app logic into a modern web application. Built with React + Vite, Flask, MongoDB and Docker.
 
 ---
 
@@ -42,9 +42,7 @@ agri-ai/
 │       │   ├── map/        (MapView)
 │       │   ├── forms/      (AnalysisForm)
 │       │   ├── charts/     (AnalyticsCharts)
-│       │   └── ui/         (KPICard, ResultsPanel, Skeleton, WeatherBadge)
-│       ├── pages/
-│       │   ├── LandingPage.jsx
+│       │   └── ui/         (KPICard, ResultsPanel, Ske
 │       │   ├── DashboardPage.jsx
 │       │   ├── HistoryPage.jsx
 │       │   └── AnalyticsPage.jsx
@@ -83,7 +81,9 @@ agri-ai/
 ### 1. Clone and Configure
 
 ```bash
-git clone <your-repo-url> agri-ai
+git clone <your-repo-url> agri-aileton, WeatherBadge)
+│       ├── pages/
+│       │   ├── LandingPage.jsx
 cd agri-ai
 cp .env.example .env
 ```
