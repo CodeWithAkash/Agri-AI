@@ -1,6 +1,6 @@
 # 🌾 AgriAI — AI-Powered Agriculture Assistant
 
-A production-grade full-stack web platform that converts Android agriculture app logic into a modern web application. Built with React + Vite, Flask, MongoDB and Docker.
+A production- grade  full-stack web platform that converts Android agriculture app logic into a modern web application. Built with React + Vite, Flask, MongoDB and Docker.
 
 ---
 
