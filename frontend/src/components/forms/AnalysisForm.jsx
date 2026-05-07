@@ -12,11 +12,8 @@ const CROPS = [
   { value: 'wheat', label: '🌿 Wheat' },
   { value: 'brinjal', label: '🍆 Brinjal' },
   { value: 'tomato', label: '🍅 Tomato' },
-  { value: 'potato', label: '🥔 Potato' },
   { value: 'cotton', label: '☁️ Cotton' },
   { value: 'sugarcane', label: '🎋 Sugarcane' },
-  { value: 'soybean', label: '🫛 Soybean' },
-  { value: 'groundnut', label: '🥜 Groundnut' },
 ]
 
 export default function AnalysisForm({ form, validationErrors, onUpdate, onSubmit, onReset, loading }) {
