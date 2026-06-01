@@ -4,7 +4,7 @@ A production- grade full-stack web platform that converts Android agriculture ap
 
 ---
 
-## 📦 Tech Stack
+## 📦Tech Stack
 
 | Layer      | Technology                                       |
 |------------|--------------------------------------------------|
