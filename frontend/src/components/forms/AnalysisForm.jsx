@@ -48,7 +48,7 @@ export default function AnalysisForm({ form, validationErrors, onUpdate, onSubmi
           onChange={(e) => onUpdate('crop', e.target.value)}
           className={`field-input ${validationErrors.crop ? 'border-red-400' : ''}`}
         >
-          <option value="">Select a crop.</option>
+          <option value="">Select a crop</option>
           {CROPS.map(({ value, label }) => (
             <option key={value} value={value}>{label}</option>
           ))}
