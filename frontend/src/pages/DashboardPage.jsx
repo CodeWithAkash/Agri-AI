@@ -209,7 +209,7 @@ export default function DashboardPage() {
                   </h3>
                   <p className="font-body text-sm text-sage-moss max-w-sm leading-relaxed">
                     1. Drop a pin on your field location on the map<br />
-                    2. Select your crop type and enter the field area<br />
+                    2. Select your crop type & enter the field area<br />
                     3. Click "Analyze Field" for AI-powered insights
                   </p>
                   <div className="mt-8 flex flex-wrap gap-2 justify-center">
