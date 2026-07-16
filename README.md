@@ -3,6 +3,8 @@
 A production- grade full-stack web platform that converts Android agriculture app logic into a modern web application. Built with React + Vite, Flask, MongoDB and Docker.
 
 ---
+Live : https://agri.akash-codes.space
+---
 
 ## 📦 Tech Stack
 
