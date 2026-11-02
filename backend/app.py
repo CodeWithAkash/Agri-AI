@@ -43,7 +43,9 @@ def create_app(config=None):
     # ── CORS (ALLOW YOUR DOMAIN) ───────────────────────────────
     allowed_origins = os.getenv(
         "CORS_ORIGINS",
-        "http://localhost:3000,https://agri.akash-codes.space"
+        "http://localhost:3000,
+         https://agri.akash-codes.space,
+         https://agri-ai-eight-zeta.vercel.app"
     ).split(",")
 
     CORS(
